@@ -32,8 +32,8 @@ class _AddPublicParticipantsScreenState extends State<AddPublicParticipantsScree
     screenWidth = MediaQuery.sizeOf(context).width;
     screenHeight = MediaQuery.sizeOf(context).height;
 
-    return Scaffold( // <--- إضافة Scaffold هنا
-      backgroundColor: Colors.transparent, // لجعل الخلفية شفافة أو يمكنك تعيينها حسب تصميمك
+    return Scaffold(
+      backgroundColor: Colors.transparent,
       body: BlocListener<PublicKhatmatBloc, KhatmatState>(
         listener: (context, state) {
           if (state is KhatmaAdded) {
@@ -52,71 +52,73 @@ class _AddPublicParticipantsScreenState extends State<AddPublicParticipantsScree
             );
           }
         },
-        child: Center( // لجعل الديالوج في المنتصف
+        child: Center(
           child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 80.0), // هامش ليعطي شكل الديالوج
+            margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
             padding: const EdgeInsets.all(25.0),
             decoration: BoxDecoration(
               color: AppColors.darkBrown,
-              borderRadius: BorderRadius.circular(20), // حواف مستديرة للديالوج
+              borderRadius: BorderRadius.circular(20),
             ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min, // لجعل العمود يأخذ أقل مساحة ممكنة
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Align(
-                  alignment: Alignment.topLeft, // زر الإغلاق في أعلى اليسار
-                  child: IconButton(
-                    icon: Icon(Icons.close, color: Colors.white),
-                    onPressed: () {
-                      Navigator.pop(context); // إغلاق الديالوج
-                    },
-                  ),
-                ),
-                Text(
-                  "أسماء المشاركين (افصل بفاصلة ,)",
-                  style: TextStyle(color: Colors.white),
-                  textAlign: TextAlign.right,
-                ),
-                const SizedBox(height: 8),
-                TextField(
-                  controller: _participantNamesController,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide: BorderSide.none,
+            child: Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: IconButton(
+                      icon: Icon(Icons.close, color: Colors.white),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                     ),
-                    hintText: 'مثال: أحمد, فاطمة, علي',
-                    hintStyle: TextStyle(color: Colors.grey[400]),
                   ),
-                  maxLines: 3,
-                  keyboardType: TextInputType.text,
-                  textAlign: TextAlign.right,
-                ),
-                const SizedBox(height: 30),
-                GestureDetector(
-                  onTap: _addKhatmaAndShare,
-                  child: Container(
-                    height: screenHeight * (41 / 800),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: AppColors.lightBackground,
+                  Text(
+                    "أسماء المشاركين (افصل بفاصلة ,)",
+                    style: TextStyle(color: Colors.white),
+                    textAlign: TextAlign.right,
+                  ),
+                  const SizedBox(height: 8),
+                  TextField(
+                    controller: _participantNamesController,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                        borderSide: BorderSide.none,
+                      ),
+                      hintText: 'مثال: أحمد, فاطمة, علي',
+                      hintStyle: TextStyle(color: Colors.grey[400]),
                     ),
-                    child: Center(
-                      child: Text(
-                        "إضافة ومشاركة",
-                        style: TextStyle(
-                          color: AppColors.darkBrown,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
+                    maxLines: 3,
+                    keyboardType: TextInputType.text,
+                    textAlign: TextAlign.right,
+                  ),
+                  const SizedBox(height: 30),
+                  GestureDetector(
+                    onTap: _addKhatmaAndShare,
+                    child: Container(
+                      height: screenHeight * (41 / 800),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: AppColors.lightBackground,
+                      ),
+                      child: Center(
+                        child: Text(
+                          "إضافة ومشاركة",
+                          style: TextStyle(
+                            color: AppColors.darkBrown,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
