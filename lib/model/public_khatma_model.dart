@@ -5,7 +5,7 @@ class KhatmaModel extends Equatable {
   final String intention;
   final DateTime startDate;
   final DateTime endDate;
-  final int durationDay;
+  final num durationDay;
   final bool isFajr;
   final bool isPriority;
   final DateTime? createdAt;
@@ -27,7 +27,7 @@ class KhatmaModel extends Equatable {
       intention: map['intention'],
       startDate: DateTime.parse(map['start_date']),
       endDate: DateTime.parse(map['end_date']),
-      durationDay: map['duration_day'] as int,
+      durationDay: map['duration_day'] ,
       isFajr: map['is_fajr'] ?? false,
       isPriority: map['is_priority'] ?? false,
       createdAt: map['created_at'] != null ? DateTime.parse(map['created_at']) : null,
