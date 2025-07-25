@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seraj_app/core/utils/color_manager.dart';
+import '../../providers/theme_notifier.dart';
 import 'bloc/khatmat_bloc.dart';
 import 'bloc/khatmat_event.dart';
 import 'bloc/khatmat_state.dart';
 
-class PrivateKhatmaPartsScreen extends StatefulWidget {
+class PrivateKhatmaPartsScreen extends ConsumerStatefulWidget {
   final String khatmaId;
   final String khatmaIntention;
 
   const PrivateKhatmaPartsScreen({Key? key, required this.khatmaId, required  this.khatmaIntention}) : super(key: key);
 
   @override
-  State<PrivateKhatmaPartsScreen> createState() => _PrivateKhatmaPartsScreenState();
+  ConsumerState<PrivateKhatmaPartsScreen> createState() => _PrivateKhatmaPartsScreenState();
 }
 
-class _PrivateKhatmaPartsScreenState extends State<PrivateKhatmaPartsScreen> {
+class _PrivateKhatmaPartsScreenState extends ConsumerState<PrivateKhatmaPartsScreen> {
   @override
   void initState() {
     super.initState();
@@ -27,7 +29,7 @@ class _PrivateKhatmaPartsScreenState extends State<PrivateKhatmaPartsScreen> {
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.sizeOf(context).width;
     screenHeight = MediaQuery.sizeOf(context).height;
-
+    final themeState = ref.watch(themeNotifierProvider);
     return Scaffold(
       body: BlocBuilder<KhatmatBloc, KhatmatState>(
         builder: (context, state) {
@@ -40,7 +42,7 @@ class _PrivateKhatmaPartsScreenState extends State<PrivateKhatmaPartsScreen> {
 
             return Container(
               decoration: BoxDecoration(
-                image: DecorationImage(image: AssetImage("assets/images/splash (1).png",),
+                image: DecorationImage(image: AssetImage(themeState.currentBackgroundImage),
                     fit: BoxFit.fill
                 ),
               ),

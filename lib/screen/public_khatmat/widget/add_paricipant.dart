@@ -45,7 +45,11 @@ class _AddPublicParticipantsScreenState extends State<AddPublicParticipantsScree
               _shareKhatmaParts(state.distributionResult!);
               print('Distribution Result: ${state.distributionResult}');
             }
-            Navigator.pop(context, true);
+            Future.delayed(const Duration(milliseconds: 300), () {
+              if (mounted && Navigator.of(context).canPop()) {
+                Navigator.pop(context, true);
+              }
+            });
           } else if (state is KhatmatError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text('حدث خطأ: ${state.message}')),

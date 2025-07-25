@@ -3,6 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:seraj_app/screen/tasbeeh_counter.dart';
 import 'package:seraj_app/widget/series.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'core/dependency_injection/di.dart';
@@ -25,21 +27,23 @@ void main() async {
   await initDependencies();
 
   runApp(
-    MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => ZekirSessionBloc(),
+    ProviderScope(
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => ZekirSessionBloc(),
+          ),
+          BlocProvider(
+            create: (context) => sl<KhatmatBloc>(),
+          ),
+          BlocProvider(
+            create: (context) => sl<PublicKhatmatBloc>(),
+          ),
+        ],
+        child: DevicePreview(
+          enabled: !kReleaseMode,
+          builder: (BuildContext context) => const MyApp(),
         ),
-        BlocProvider(
-          create: (context) => sl<KhatmatBloc>(),
-        ),
-        BlocProvider(
-          create: (context) => sl<PublicKhatmatBloc>(),
-        ),
-      ],
-      child: DevicePreview(
-        enabled: !kReleaseMode,
-        builder: (BuildContext context) => const MyApp(),
       ),
     ),
   );
@@ -52,7 +56,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: PublicKhatmatScreen(),
+      home: TasbeehCounter(),
     );
   }
 }

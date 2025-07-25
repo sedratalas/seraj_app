@@ -1,35 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seraj_app/core/utils/color_manager.dart';
 import 'package:seraj_app/screen/private_khatmat/bloc/khatmat_event.dart';
 import 'package:seraj_app/screen/zekir_session/widget/zekir_card.dart';
 
+import '../../providers/theme_notifier.dart';
 import 'bloc/khatmat_bloc.dart';
 import 'bloc/khatmat_state.dart';
 import 'widget/add_privat_khatma.dart';
 import 'widget/khatma_card.dart';
 
 
-class KhatmatScreen extends StatefulWidget {
+class KhatmatScreen extends ConsumerStatefulWidget {
   const KhatmatScreen({Key? key}) : super(key: key);
 
   @override
 
-  State<KhatmatScreen> createState() => _KhatmatScreenState();
+  ConsumerState<KhatmatScreen> createState() => _KhatmatScreenState();
 
 }
 
-class _KhatmatScreenState extends State<KhatmatScreen> {
+class _KhatmatScreenState extends ConsumerState<KhatmatScreen> {
   void initState() {
     super.initState();
     context.read<KhatmatBloc>().add(LoadKhatmat());
   }
   @override
   Widget build(BuildContext context) {
+    final themeState = ref.watch(themeNotifierProvider);
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          image: DecorationImage(image: AssetImage("assets/images/splash (1).png",),
+          image: DecorationImage(image: AssetImage(themeState.currentBackgroundImage,),
               fit: BoxFit.fill
           ),
         ),
