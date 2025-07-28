@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:seraj_app/screen/home_screen/home_screen.dart';
 import 'package:seraj_app/screen/tasbeeh_counter.dart';
 import 'package:seraj_app/widget/series.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'config.dart';
 import 'core/dependency_injection/di.dart';
 import 'screen/private_khatmat/bloc/khatmat_bloc.dart';
 import 'screen/private_khatmat/private_khatmat_screen.dart';
@@ -18,7 +20,7 @@ import 'screen/zekir_session/bloc/zekir_session_bloc.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
-
+  Bloc.observer = MyBlocObserver();
   await Supabase.initialize(
     url: dotenv.env['SUPABASE_URL']!,
     anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
@@ -56,7 +58,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: TasbeehCounter(),
+      home: HomeScreen(),
     );
   }
 }

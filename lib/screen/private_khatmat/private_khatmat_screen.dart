@@ -27,7 +27,9 @@ class _KhatmatScreenState extends ConsumerState<KhatmatScreen> {
     context.read<KhatmatBloc>().add(LoadKhatmat());
   }
   @override
+  late double screenWidth;
   Widget build(BuildContext context) {
+    screenWidth = MediaQuery.sizeOf(context).width;
     final themeState = ref.watch(themeNotifierProvider);
     return Scaffold(
       body: Container(
@@ -47,23 +49,56 @@ class _KhatmatScreenState extends ConsumerState<KhatmatScreen> {
               if (state.khatmat.isEmpty) {
                 return const Center(child: Text('لا توجد ختمات حتى الآن.'));
               }
-              return ListView.builder(
-                itemCount: state.khatmat.length,
-                itemBuilder: (context, index) {
-                  final khatma = state.khatmat[index];
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 25),
-                    child: KhatmaCard(
-                      id: khatma.id!,
-                      intention: khatma.intention,
-                      startDate: khatma.startDate,
-                      endDate: khatma.endDate,
-                      isFajr:khatma.isFajr,
-                      isPriority: khatma.isPriority,
-
+              return SafeArea(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding:  EdgeInsets.only(left: screenWidth*(20/300),right:screenWidth*(20/300) ),
+                      child: Row(
+                        children: [
+                          GestureDetector(
+                              onTap: (){
+                                Navigator.pop(context);
+                              },
+                              child: Image.asset("assets/images/leftarrow.png")),
+                          Expanded(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset("assets/images/left_floral.png"),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text("الختمات الخاصة"),
+                                ),
+                                Image.asset("assets/images/right_floral.png"),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  );
-                },
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: state.khatmat.length,
+                        itemBuilder: (context, index) {
+                          final khatma = state.khatmat[index];
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 25),
+                            child: KhatmaCard(
+                              id: khatma.id!,
+                              intention: khatma.intention,
+                              startDate: khatma.startDate,
+                              endDate: khatma.endDate,
+                              isFajr:khatma.isFajr,
+                              isPriority: khatma.isPriority,
+
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               );
             }
             return const Center(child: Text('جاري التحميل أو لا توجد بيانات.'));

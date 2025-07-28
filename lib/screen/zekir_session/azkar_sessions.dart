@@ -24,7 +24,9 @@ class _AzkarSessionsState extends State<AzkarSessions> {
     context.read<ZekirSessionBloc>().add(LoadZekirSessions());
   }
   @override
+  late double screenWidth;
   Widget build(BuildContext context) {
+    screenWidth = MediaQuery.sizeOf(context).width;
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -43,21 +45,54 @@ class _AzkarSessionsState extends State<AzkarSessions> {
               if (state.sessions.isEmpty) {
                 return const Center(child: Text('لا توجد جلسات ذكر حتى الآن.'));
               }
-              return ListView.builder(
-                itemCount: state.sessions.length,
-                itemBuilder: (context, index) {
-                  final session = state.sessions[index];
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 25),
-                    child: ZekirCard(
-                      dhikrType: session.dhikrType,
-                      startDate: session.startDate,
-                      endDate: session.endDate,
-                      requiredCount: session.requiredCount,
-                      completedCount: session.completedCount,
+              return SafeArea(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding:  EdgeInsets.only(left: screenWidth*(20/300),right:screenWidth*(20/300) ),
+                      child: Row(
+                        children: [
+                          GestureDetector(
+                              onTap: (){
+                                Navigator.pop(context);
+                              },
+                              child: Image.asset("assets/images/leftarrow.png")),
+                          Expanded(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset("assets/images/left_floral.png"),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text("جلسات الذكر"),
+                                ),
+                                Image.asset("assets/images/right_floral.png"),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  );
-                },
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: state.sessions.length,
+                        itemBuilder: (context, index) {
+                          final session = state.sessions[index];
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 25),
+                            child: ZekirCard(
+                              dhikrType: session.dhikrType,
+                              startDate: session.startDate,
+                              endDate: session.endDate,
+                              requiredCount: session.requiredCount,
+                              completedCount: session.completedCount,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               );
             }
             return const Center(child: Text('جاري التحميل أو لا توجد بيانات.'));

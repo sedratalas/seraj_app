@@ -1,5 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../model/public_khatma_model.dart';
+import '../model/public_khatma_part.dart';
 
 class PublicKhatmatService {
   final SupabaseClient _supabaseClient;
@@ -15,15 +16,6 @@ class PublicKhatmatService {
     return response.map((map) => KhatmaModel.fromMap(map)).toList();
   }
 
- // Future<bool>addPublicKhatma(KhatmaModel khatma)async{
- //    try{
- //      await _supabaseClient.from("publickhatmat").insert(khatma.toMap());
- //      return true;
- //    }catch(e){
- //      print(e);
- //      return true;
- //    }
- // }
   Future<List<Map<String, dynamic>>?> addPublicKhatmaAndDistributeParts(KhatmaModel khatma, List<String> participantNames) async {
     try {
 
@@ -69,20 +61,30 @@ class PublicKhatmatService {
     }
   }
 
-  // Future<List<KhatmaPartModel>> fetchKhatmaParts(String khatmaId) async {
-  //   final List<Map<String, dynamic>> response = await _supabaseClient
-  //       .from('publickhatmaparts')
-  //       .select()
-  //       .eq('khatma_id', khatmaId)
-  //       .order('part_number', ascending: true);
-  //
-  //   return response.map((map) => KhatmaPartModel.fromMap(map)).toList();
-  // }
-  //
-  // Future<void> updateKhatmaPartStatus(KhatmaPartModel khatmaPart) async {
-  //   await _supabaseClient
-  //       .from('privatkhatmaparts')
-  //       .update(khatmaPart.toMap())
-  //       .eq('id', khatmaPart.id!);
-  // }
-}
+  Future<List<KhatmaPart>> fetchKhatmaParts(String khatmaId) async {
+    final List<dynamic> response = await _supabaseClient
+        .from('read_parts')
+        .select('*, publicparticipants!participant_id(name)')
+        .eq('khatma_id', khatmaId)
+        .order('part_number', ascending: true);
+
+    return response.map((json) {
+      return KhatmaPart.fromJson(json as Map<String, dynamic>);
+    }).toList();
+  }
+  Future<void> markKhatmaPartsAsReadForDate(String khatmaId, DateTime targetDate) async {
+    try {
+      await _supabaseClient.rpc(
+        'mark_khatma_parts_as_read_for_date',
+        params: {
+          'p_khatma_id': khatmaId,
+          'p_target_date': targetDate.toIso8601String().split('T')[0],
+        },
+      );
+    } catch (e) {
+      print('Error marking khatma parts as read: $e');
+      rethrow;
+    }
+  }
+
+  }

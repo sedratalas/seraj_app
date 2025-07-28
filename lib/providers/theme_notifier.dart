@@ -6,7 +6,7 @@ import 'package:geolocator/geolocator.dart';
 
 import '../service/prayer_time_service.dart';
 
-const String FAJR_BACKGROUND_IMAGE = "assets/images/fajer.png";
+const String FAJR_BACKGROUND_IMAGE = "assets/images/fajer_theme.png";
 const String DEFAULT_BACKGROUND_IMAGE = "assets/images/splash (1).png";
 
 class ThemeState {

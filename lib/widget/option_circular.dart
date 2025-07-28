@@ -12,7 +12,7 @@ class OptionCircular extends StatelessWidget {
   Widget build(BuildContext context) {
     return
        CircleAvatar(
-        backgroundColor: AppColors.duskPeach,
+        backgroundColor: AppColors.lightBackground,
         radius: 50,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
