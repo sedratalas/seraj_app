@@ -119,7 +119,7 @@
 //     );
 //   }
 // }
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 import 'package:seraj_app/core/utils/color_manager.dart';
 import 'dart:math';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -402,6 +402,124 @@ class _TasbeehCounterState extends ConsumerState<TasbeehCounter> {
             ),
             SizedBox(height: screenHeight * 0.05),
           ],
+        ),
+      ),
+    );
+  }
+}*/
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../providers/theme_notifier.dart';
+import '../core/utils/color_manager.dart';
+class TasbeehCounter extends ConsumerStatefulWidget {
+  const TasbeehCounter({Key? key}) : super(key: key);
+
+  @override
+  ConsumerState<TasbeehCounter> createState() => _TasbeehCounterState();
+}
+
+class _TasbeehCounterState extends ConsumerState<TasbeehCounter> {
+  @override
+  Widget build(BuildContext context) {
+        double screenWidth = MediaQuery.sizeOf(context).width;
+    double screenHeight = MediaQuery.sizeOf(context).height;
+        final themeState = ref.watch(themeNotifierProvider);
+    return Scaffold(
+      body: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(themeState.currentBackgroundImage),
+            fit: BoxFit.fill,
+          ),
+        ),
+        child: SafeArea(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                Image.asset("assets/images/vector.png"),
+                Image.asset("assets/images/frame.png"),
+                Text("0",
+                  style: TextStyle(
+                    color: AppColors.darkBrown,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 30,
+                  ),
+                ),
+              ],
+            ),
+                SizedBox(
+                  height: screenHeight * (40/800),
+                ),
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      width: screenWidth * (421/360),
+                      height: screenHeight *  (406/800),
+                      decoration: BoxDecoration(
+                        color: AppColors.lightBackground,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                    Container(
+                      width: screenWidth * (294/360),
+                      height: screenHeight *  (284/800),
+                      decoration: BoxDecoration(
+                        color: Color(0xffE2CEA2),
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                    Container(
+                        width: screenWidth * (242/360),
+                        height: screenHeight *  (242/800),
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/images/mandala (2) 1.png"),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    Container(
+                        width: screenWidth * 0.2,
+                        height: screenWidth * 0.2,
+                        decoration: BoxDecoration(
+                          color: AppColors.lightBackground,
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.2),
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                              offset: Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset("assets/images/tap 1.png"),
+                              Text(
+                                "انقر",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: AppColors.darkBrown,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+
+                               ],
+                            ),
+                        ),
+                    ),
+              ],
+            ),
+          ],
+          ),
         ),
       ),
     );

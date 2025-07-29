@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seraj_app/core/utils/color_manager.dart';
 import 'package:seraj_app/widget/series.dart';
+import 'package:workmanager/workmanager.dart';
 
+import '../../main.dart';
 import '../../providers/theme_notifier.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -65,6 +68,39 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                  ),
                                   ),
                ),
+              // ElevatedButton(
+              //   onPressed: () {
+              //     flutterLocalNotificationsPlugin.show(
+              //       12345,
+              //       '📢 إشعار اختبار',
+              //       'إذا شفت هذا الإشعار، كل شي تمام ✅',
+              //       const NotificationDetails(
+              //         android: AndroidNotificationDetails(
+              //           'test_channel',
+              //           'اختبار الإشعارات',
+              //           channelDescription: 'قناة لاختبار الإشعارات العادية',
+              //           importance: Importance.max,
+              //           priority: Priority.high,
+              //         ),
+              //       ),
+              //     );
+              //   },
+              //   child: Text('اختبار الإشعار الآن'),
+              // ),
+              // ElevatedButton(
+              //   onPressed: () async {
+              //     await Workmanager().registerOneOffTask(
+              //       'test_khatma_immediate',
+              //       'daily_khatma_reminder',
+              //       inputData: {
+              //         'khatmaId': 'test_id',
+              //         'khatmaIntention': 'ختمة تجريبية',
+              //       },
+              //     );
+              //     print('🔔 تم تسجيل مهمة اختبار فوري');
+              //   },
+              //   child: Text('اختبار WorkManager'),
+              // ),
               SizedBox(
                 height: screenHeight*(30/800),
               ),

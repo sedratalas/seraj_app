@@ -1,3 +1,4 @@
+//
 // import 'package:bloc/bloc.dart';
 // import '../../../model/public_khatma_model.dart';
 // import '../../../model/public_khatma_part.dart';
@@ -57,13 +58,11 @@
 //         event.targetDate,
 //       );
 //
-//       await _khatmatService.markKhatmaPartsAsReadForDate(
-//         event.khatmaId,
-//         event.targetDate,
-//       );
-//       print('KhatmatBloc: الأجزاء تم تحديدها كمقروءة داخلياً للختمة ID: ${event.khatmaId}, التاريخ: ${event.targetDate}');
-//
-//       emit(KhatmaDistributionLoaded(distributionResult: distribution));
+//       emit(KhatmaDistributionLoaded(
+//         distributionResult: distribution,
+//         khatmaId: event.khatmaId,
+//         targetDate: event.targetDate,
+//       ));
 //     } catch (e, stackTrace) {
 //       print('KhatmatBloc: خطأ في جلب التوزيع: $e\n$stackTrace');
 //       emit(KhatmatError('فشل جلب التوزيع: ${e.toString()}', sourceEvent: event));
@@ -94,7 +93,7 @@
 // }
 import 'package:bloc/bloc.dart';
 import '../../../model/public_khatma_model.dart';
-import '../../../model/public_khatma_part.dart';
+import '../../../model/public_khatma_part.dart'; // تأكدي أن هذا الاستيراد ضروري
 import '../../../service/public_khatma_service.dart';
 import 'khatmat_event.dart';
 import 'khatmat_state.dart';
@@ -128,12 +127,20 @@ class PublicKhatmatBloc extends Bloc<KhatmatEvent, KhatmatState> {
       AddKhatma event, Emitter<KhatmatState> emit) async {
     emit(AddingKhatma());
     try {
-      final List<Map<String, dynamic>>? distributionResult =
+      final Map<String, dynamic> serviceResponse =
       await _khatmatService.addPublicKhatmaAndDistributeParts(
           event.khatma, event.participantNames);
 
-      emit(KhatmaAdded(distributionResult: distributionResult));
+      final KhatmaModel createdKhatma = serviceResponse['khatma'] as KhatmaModel;
+      final List<Map<String, dynamic>> distributionResult =
+      serviceResponse['distribution'] as List<Map<String, dynamic>>;
+
+      emit(KhatmaAdded(
+        createdKhatma: createdKhatma,
+        distributionResult: distributionResult,
+      ));
       add(LoadKhatmat());
+
     } catch (e, stackTrace) {
       emit(KhatmatError('فشل في إضافة الختمة وتوزيع الأجزاء: ${e.toString()}'));
       print('Error in _onAddKhatma: $e\n$stackTrace');
