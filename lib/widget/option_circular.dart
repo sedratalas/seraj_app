@@ -18,7 +18,7 @@ class OptionCircular extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(asset),
-            Text(text),
+            Text(text,style: TextStyle(fontSize: 16,color: AppColors.darkBrown, fontFamily: "H-ALHFHAF",),),
           ],
         ),
     );

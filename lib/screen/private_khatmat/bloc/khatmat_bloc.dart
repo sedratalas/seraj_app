@@ -56,13 +56,23 @@ class KhatmatBloc extends Bloc<KhatmatEvent, KhatmatState> {
 
   Future<void> _onUpdateKhatmaPartStatus(
       UpdateKhatmaPartStatus event, Emitter<KhatmatState> emit) async {
-    emit(UpdatingKhatmaPartStatus());
-    try {
-      await _khatmatService.updateKhatmaPartStatus(event.khatmaPart);
-      add(LoadKhatmaParts(khatmaId: event.khatmaPart.khatmaId));
-      emit(KhatmaPartStatusUpdated());
-    } catch (e) {
-      emit(KhatmatError('فشل في تحديث حالة الجزء: ${e.toString()}'));
+    if (state is LoadedKhatmaParts) {
+      final List<KhatmaPartModel> currentParts = (state as LoadedKhatmaParts).khatmaParts;
+
+      final updatedParts = List<KhatmaPartModel>.from(currentParts);
+      final index = updatedParts.indexWhere((part) => part.id == event.khatmaPart.id);
+      if (index != -1) {
+        updatedParts[index] = event.khatmaPart;
+      }
+
+      emit(UpdatingKhatmaPartStatus(khatmaParts: updatedParts));
+
+      try {
+        await _khatmatService.updateKhatmaPartStatus(event.khatmaPart);
+        add(LoadKhatmaParts(khatmaId: event.khatmaPart.khatmaId));
+      } catch (e) {
+        emit(KhatmatError('فشل في تحديث حالة الجزء: ${e.toString()}'));
+      }
     }
   }
 }

@@ -53,7 +53,7 @@ class _KhatmatScreenState extends ConsumerState<KhatmatScreen> {
                 child: Column(
                   children: [
                     Padding(
-                      padding:  EdgeInsets.only(left: screenWidth*(20/300),right:screenWidth*(20/300) ),
+                      padding:  EdgeInsets.only(left: screenWidth*(20/300),right:screenWidth*(20/300), top: 10 ),
                       child: Row(
                         children: [
                           GestureDetector(
@@ -65,12 +65,12 @@ class _KhatmatScreenState extends ConsumerState<KhatmatScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.asset("assets/images/left_floral.png"),
+                                Image.asset(themeState.currentLeftFloralImage),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Text("الختمات الخاصة"),
+                                  child: Text("الختمات الخاصة",style: TextStyle(fontSize: 28,color: themeState.sirajTextColor, fontFamily: "H-ALHFHAF",),),
                                 ),
-                                Image.asset("assets/images/right_floral.png"),
+                                Image.asset(themeState.currentRightFloralImage),
                               ],
                             ),
                           ),
@@ -91,6 +91,7 @@ class _KhatmatScreenState extends ConsumerState<KhatmatScreen> {
                               endDate: khatma.endDate,
                               isFajr:khatma.isFajr,
                               isPriority: khatma.isPriority,
+                              index: (index+1).toString(),
 
                             ),
                           );

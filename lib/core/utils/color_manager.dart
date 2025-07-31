@@ -1,4 +1,4 @@
-// lib/app_colors.dart
+
 import 'package:flutter/material.dart';
 
 class AppColors {
@@ -7,9 +7,12 @@ class AppColors {
   static const Color lightBackground = Color(0xFFFFF8C7);
   static const Color darkBrown = Color(0xFF372527);
 
+
   // Dusk Palette
   static const Color duskPeach = Color(0xFFFFDAB9);
+  static const Color mandalaBack = Color(0xffFACDA9);
   static const Color duskTerracotta = Color(0xFFCD5B45);
+
 
   static const Color lightThemePrimary = primaryBlue;
   static const Color darkThemePrimary = Colors.deepPurple;

@@ -81,12 +81,12 @@ class _PublicKhatmatScreenState extends ConsumerState<PublicKhatmatScreen> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Image.asset("assets/images/left_floral.png"),
-                                  const Padding(
+                                  Image.asset(themeState.currentLeftFloralImage),
+                                   Padding(
                                     padding: EdgeInsets.all(8.0),
-                                    child: Text("الختمات العامة"),
+                                    child: Text("الختمات العامة",style: TextStyle(fontSize: 30,color: themeState.sirajTextColor, fontFamily: "H-ALHFHAF",),),
                                   ),
-                                  Image.asset("assets/images/right_floral.png"),
+                                  Image.asset(themeState.currentRightFloralImage),
                                 ],
                               ),
                             ),
@@ -107,6 +107,7 @@ class _PublicKhatmatScreenState extends ConsumerState<PublicKhatmatScreen> {
                                 endDate: khatma.endDate,
                                 isFajr: khatma.isFajr,
                                 isPriority: khatma.isPriority,
+                                index: (index+1).toString(),
                               ),
                             );
                           },

@@ -15,6 +15,7 @@ class KhatmaCard extends StatefulWidget {
   final DateTime endDate;
   final bool isFajr;
   final bool isPriority;
+  final String index;
 
   KhatmaCard({
     Key? key,
@@ -24,6 +25,7 @@ class KhatmaCard extends StatefulWidget {
     required this.endDate,
     required this.isFajr,
     required this.isPriority,
+    required this.index,
   }) : super(key: key);
 
   @override
@@ -47,6 +49,7 @@ class _KhatmaCardState extends State<KhatmaCard> {
             builder: (context) => PublicKhatmaPartsScreen(
               khatmaId: widget.id,
               khatmaIntention: widget.intention,
+              khatmaindex: widget.index,
             ),
           ),
         );
@@ -71,14 +74,31 @@ class _KhatmaCardState extends State<KhatmaCard> {
                   },
                   icon: const Icon(Icons.share),
                 ),
-                Text(widget.intention),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Image.asset(
-                    "assets/images/Group 22.png",
-                    width: screenWidth * (90 / 360),
-                    height: screenHeight * (79 / 800),
-                  ),
+                const SizedBox(width: 40,),
+                Text(widget.intention,style: TextStyle(fontSize: 22,color: AppColors.darkBrown, fontFamily: "H-ALHFHAF",),),
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Image.asset("assets/images/Group 22.png",
+                        width: screenWidth * (100/360),
+                        height: screenHeight *(89/800),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 4,),
+                          const Text("ختمة",style: TextStyle(color: Colors.white),),
+                          Text(widget.index,style: TextStyle(color: Colors.white),),
+
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -110,8 +130,8 @@ class _KhatmaCardState extends State<KhatmaCard> {
   Widget _buildDateInfo(String label, String value) {
     return Column(
       children: [
-        Text(label, style: const TextStyle(color: AppColors.darkBrown, fontSize: 14)),
-        Text(value, style: const TextStyle(color: AppColors.darkBrown, fontWeight: FontWeight.bold, fontSize: 16)),
+        Text(label, style: const TextStyle(fontSize: 14,color: AppColors.darkBrown, fontFamily: "H-ALHFHAF",),),
+        Text(value, style: const TextStyle(fontSize: 16,color: AppColors.darkBrown, fontFamily: "H-ALHFHAF",),),
       ],
     );
   }

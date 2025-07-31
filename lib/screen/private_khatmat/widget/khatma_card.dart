@@ -11,6 +11,7 @@ class KhatmaCard extends StatelessWidget {
   final DateTime endDate;
   final bool isFajr;
   final bool isPriority;
+  final String index;
 
   KhatmaCard({
     Key? key,
@@ -20,6 +21,7 @@ class KhatmaCard extends StatelessWidget {
     required this.endDate,
     required this.isFajr,
     required this.isPriority,
+    required this.index,
   }) : super(key: key);
   late double screenWidth;
   late double screenHeight;
@@ -34,7 +36,9 @@ class KhatmaCard extends StatelessWidget {
           MaterialPageRoute(
             builder: (context) => PrivateKhatmaPartsScreen(
               khatmaId: id,
-              khatmaIntention: intention,),
+              khatmaIntention: intention,
+              khatmaIndex:index,
+            ),
           ),
         );
       },
@@ -50,13 +54,30 @@ class KhatmaCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text(intention),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Image.asset("assets/images/Group 22.png",
-                    width: screenWidth * (90/360),
-                    height: screenHeight *(79/800),
-                  ),
+                Text(intention,style: TextStyle(fontSize: 22,color: AppColors.darkBrown, fontFamily: "H-ALHFHAF",),),
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Image.asset("assets/images/Group 22.png",
+                        width: screenWidth * (100/360),
+                        height: screenHeight *(89/800),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 4,),
+                          Text("ختمة",style: TextStyle(color: Colors.white),),
+                          Text(index,style: TextStyle(color: Colors.white),),
+
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -89,8 +110,8 @@ class KhatmaCard extends StatelessWidget {
   Widget _buildDateInfo(String label, String value) {
     return Column(
       children: [
-        Text(label, style: const TextStyle(color: AppColors.darkBrown, fontSize: 14)),
-        Text(value, style: const TextStyle(color: AppColors.darkBrown, fontWeight: FontWeight.bold, fontSize: 16)),
+        Text(label, style: const TextStyle(fontSize: 16,color: AppColors.darkBrown, fontFamily: "H-ALHFHAF",),),
+        Text(value, style: const TextStyle(fontSize: 18,color: AppColors.darkBrown, fontFamily: "H-ALHFHAF",),),
       ],
     );
   }

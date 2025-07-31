@@ -4,22 +4,41 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 
+import '../core/utils/color_manager.dart';
 import '../service/prayer_time_service.dart';
 
 const String FAJR_BACKGROUND_IMAGE = "assets/images/fajer_theme.png";
 const String DEFAULT_BACKGROUND_IMAGE = "assets/images/splash (1).png";
+
+const String DEFAULT_LEFT_FLORAL_IMAGE = "assets/images/left_floral.png";
+const String DEFAULT_RIGHT_FLORAL_IMAGE = "assets/images/right_floral.png";
+const String DEFAULT_MANDALA_IMAGE = "assets/images/mandala (2) 1.png";
+
+const String FAJR_LEFT_FLORAL_IMAGE = "assets/images/fajerfloralleft.png";
+const String FAJR_RIGHT_FLORAL_IMAGE = "assets/images/fajerfloralright.png";
+const String FAJR_MANDALA_IMAGE = "assets/images/fajermandala.png";
 
 class ThemeState {
   final String currentBackgroundImage;
   final String? fajrTime;
   final String? sunriseTime;
   final String? errorMessage;
+  final String currentLeftFloralImage;
+  final String currentRightFloralImage;
+  final String currentMandalaImage;
+  final Color sirajTextColor;
+  final Color currentMandalaBackgroung;
 
   ThemeState({
     required this.currentBackgroundImage,
     this.fajrTime,
     this.sunriseTime,
     this.errorMessage,
+    this.currentLeftFloralImage = DEFAULT_LEFT_FLORAL_IMAGE,
+    this.currentRightFloralImage = DEFAULT_RIGHT_FLORAL_IMAGE,
+    this.currentMandalaImage = DEFAULT_MANDALA_IMAGE,
+    this.sirajTextColor = AppColors.darkBrown,
+    this.currentMandalaBackgroung = AppColors.mandalaBack,
   });
 
   ThemeState copyWith({
@@ -27,12 +46,22 @@ class ThemeState {
     String? fajrTime,
     String? sunriseTime,
     String? errorMessage,
+    String? currentLeftFloralImage,
+    String? currentRightFloralImage,
+    String? currentMandalaImage,
+    Color? sirajTextColor,
+    Color? currentMandalaBackgroung,
   }) {
     return ThemeState(
       currentBackgroundImage: currentBackgroundImage ?? this.currentBackgroundImage,
       fajrTime: fajrTime ?? this.fajrTime,
       sunriseTime: sunriseTime ?? this.sunriseTime,
       errorMessage: errorMessage ?? this.errorMessage,
+      currentLeftFloralImage: currentLeftFloralImage ?? this.currentLeftFloralImage,
+      currentRightFloralImage: currentRightFloralImage ?? this.currentRightFloralImage,
+      currentMandalaImage: currentMandalaImage ?? this.currentMandalaImage,
+      sirajTextColor: sirajTextColor ?? this.sirajTextColor,
+      currentMandalaBackgroung: currentMandalaBackgroung ?? this.currentMandalaBackgroung,
     );
   }
 }
@@ -44,8 +73,14 @@ class ThemeNotifier extends StateNotifier<ThemeState> {
   String _currentCountry = "Syria";
 
   ThemeNotifier(this._prayerTimeService)
-      : super(ThemeState(currentBackgroundImage: DEFAULT_BACKGROUND_IMAGE)) {
-    print("ThemeNotifier constructor called!");
+      : super(ThemeState(
+    currentBackgroundImage: DEFAULT_BACKGROUND_IMAGE,
+    currentLeftFloralImage: DEFAULT_LEFT_FLORAL_IMAGE,
+    currentRightFloralImage: DEFAULT_RIGHT_FLORAL_IMAGE,
+    currentMandalaImage: DEFAULT_MANDALA_IMAGE,
+    sirajTextColor: AppColors.darkBrown,
+    currentMandalaBackgroung: AppColors.mandalaBack,
+  )) {
     _startThemeUpdater();
   }
 
@@ -71,27 +106,27 @@ class ThemeNotifier extends StateNotifier<ThemeState> {
           fajrTime: prayerTimesResponse.timings['Fajr'],
           sunriseTime: prayerTimesResponse.timings['Sunrise'],
         );
-        print('تم جلب أوقات الصلاة بنجاح: الفجر ${state.fajrTime}, الشروق ${state.sunriseTime}');
       } else {
         state = state.copyWith(errorMessage: "فشل في جلب أوقات الصلاة من الخادم.");
-        print('فشل جلب أوقات الصلاة: prayerTimesResponse فارغ.');
       }
-    } on DioException catch (e) { // إضافة معالجة DioException بشكل صريح
+    } on DioException catch (e) {
       state = state.copyWith(errorMessage: "خطأ في الشبكة أثناء جلب أوقات الصلاة: ${e.message}");
-      print('خطأ في الشبكة أثناء جلب أوقات الصلاة: ${e.message}');
-      if (e.response != null) {
-        print('بيانات استجابة الخطأ: ${e.response?.data}');
-      }
     } catch (e) {
       state = state.copyWith(errorMessage: "خطأ غير متوقع أثناء جلب أوقات الصلاة: $e");
-      print("خطأ غير متوقع في _fetchAndUpdatePrayerTimes: $e");
     }
   }
 
   void _checkAndUpdateTheme() {
     if (state.fajrTime == null || state.sunriseTime == null) {
       if (state.currentBackgroundImage != DEFAULT_BACKGROUND_IMAGE) {
-        state = state.copyWith(currentBackgroundImage: DEFAULT_BACKGROUND_IMAGE);
+        state = state.copyWith(
+          currentBackgroundImage: DEFAULT_BACKGROUND_IMAGE,
+          currentLeftFloralImage: DEFAULT_LEFT_FLORAL_IMAGE,
+          currentRightFloralImage: DEFAULT_RIGHT_FLORAL_IMAGE,
+          currentMandalaImage: DEFAULT_MANDALA_IMAGE,
+          sirajTextColor: AppColors.darkBrown,
+          currentMandalaBackgroung: AppColors.mandalaBack,
+        );
       }
       return;
     }
@@ -108,14 +143,30 @@ class ThemeNotifier extends StateNotifier<ThemeState> {
 
       final bool isInFajrPeriod = now.isAfter(fajrDateTime) && now.isBefore(sunriseDateTime);
 
-      final newImage = isInFajrPeriod ? FAJR_BACKGROUND_IMAGE : DEFAULT_BACKGROUND_IMAGE;
-
-      if (state.currentBackgroundImage != newImage) {
-        state = state.copyWith(currentBackgroundImage: newImage);
-        print('Theme updated to: $newImage');
+      if (isInFajrPeriod) {
+        if (state.currentBackgroundImage != FAJR_BACKGROUND_IMAGE) {
+          state = state.copyWith(
+            currentBackgroundImage: FAJR_BACKGROUND_IMAGE,
+            currentLeftFloralImage: FAJR_LEFT_FLORAL_IMAGE,
+            currentRightFloralImage: FAJR_RIGHT_FLORAL_IMAGE,
+            currentMandalaImage: FAJR_MANDALA_IMAGE,
+            sirajTextColor: Color(0xffFFC886),
+            currentMandalaBackgroung: Color(0xffFACDA9),
+          );
+        }
+      } else {
+        if (state.currentBackgroundImage != DEFAULT_BACKGROUND_IMAGE) {
+          state = state.copyWith(
+            currentBackgroundImage: DEFAULT_BACKGROUND_IMAGE,
+            currentLeftFloralImage: DEFAULT_LEFT_FLORAL_IMAGE,
+            currentRightFloralImage: DEFAULT_RIGHT_FLORAL_IMAGE,
+            currentMandalaImage: DEFAULT_MANDALA_IMAGE,
+            sirajTextColor: AppColors.darkBrown,
+            currentMandalaBackgroung: AppColors.mandalaBack,
+          );
+        }
       }
     } catch (e) {
-      print("Error parsing prayer times or updating theme: $e");
       state = state.copyWith(errorMessage: "Error updating theme: $e");
     }
   }

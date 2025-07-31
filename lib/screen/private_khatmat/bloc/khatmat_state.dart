@@ -38,6 +38,11 @@ class LoadedKhatmaParts extends KhatmatState {
 }
 class AddingKhatma extends KhatmatState {}
 class KhatmaAdded extends KhatmatState {}
-class UpdatingKhatmaPartStatus extends KhatmatState {}
+class UpdatingKhatmaPartStatus extends KhatmatState {
+  final List<KhatmaPartModel> khatmaParts;
+  const UpdatingKhatmaPartStatus({required this.khatmaParts});
+  @override
+  List<Object> get props => [khatmaParts];
+}
 
 class KhatmaPartStatusUpdated extends KhatmatState {}

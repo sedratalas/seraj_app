@@ -64,7 +64,7 @@ class _AzkarSessionsState extends State<AzkarSessions> {
                                 Image.asset("assets/images/left_floral.png"),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Text("جلسات الذكر"),
+                                  child: const Text("جلسات الذكر",style: TextStyle(fontSize: 30,color: AppColors.darkBrown, fontFamily: "H-ALHFHAF",),),
                                 ),
                                 Image.asset("assets/images/right_floral.png"),
                               ],
@@ -86,6 +86,7 @@ class _AzkarSessionsState extends State<AzkarSessions> {
                               endDate: session.endDate,
                               requiredCount: session.requiredCount,
                               completedCount: session.completedCount,
+                              index: (index+1).toString(),
                             ),
                           );
                         },

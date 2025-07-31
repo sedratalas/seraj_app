@@ -37,12 +37,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset("assets/images/left_floral.png"),
-                   Padding(
+                  Image.asset(themeState.currentLeftFloralImage),
+                  Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child:const Text("سراج", style: TextStyle(fontSize: 30,color: AppColors.darkBrown),),
+                    child: Text("سراج", style: TextStyle(fontSize: 30,color: themeState.sirajTextColor, fontFamily: "H-ALHFHAF",),),
                   ),
-                  Image.asset("assets/images/right_floral.png"),
+                  Image.asset(themeState.currentRightFloralImage),
                 ],
               ),
               SizedBox(
@@ -58,12 +58,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                  child: Directionality(
                  textDirection: TextDirection.rtl,
                  child: Center(
-                   child: Text("المستخدم عند الفجر يعرض فقط \n الأوراد و الختم الفجرية و ما بقي من اليوم يعرض الأوراد و الختم الاخرى",
+                   child: Text("المستخدم  عند  الفجر  يعرض  فقط \n الأوراد و الختم  الفجرية  و  ما بقي من اليوم  يعرض الأوراد  و الختم   الاخرى",
+
                      textAlign: TextAlign.center,
-                     style: TextStyle(
-                       color: AppColors.darkBrown,
-                       fontSize: 20,
-                     ),
+                     style: TextStyle(fontSize: 20,color: AppColors.darkBrown, fontFamily: "H-ALHFHAF",),
                    ),
                  ),
                                   ),
